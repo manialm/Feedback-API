@@ -12,7 +12,7 @@ WORKDIR /workspace
 
 # Install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-# ENV PATH="/root/.cargo/bin:${PATH}"
+ENV PATH="$HOME/.local/bin:${PATH}"
 
 # --- Dependency Installation ---
 # This is the key change. We copy ONLY the pyproject.toml file.
