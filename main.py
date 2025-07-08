@@ -1,6 +1,7 @@
-def main():
-    print("Hello from role-based-feedback-collector-api!")
+import fastapi
 
+app = fastapi.FastAPI()
 
-if __name__ == "__main__":
-    main()
+@app.get("/")
+def index():
+    return "Hello, World!"
