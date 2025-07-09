@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, UTC
 
-from sqlmodel import Session
+from sqlmodel import Session, select
 from user.model import User, UserCreate
 from core.settings import settings
 
@@ -16,7 +16,7 @@ def create_user(session: Session, user: UserCreate):
     session.commit()
     session.refresh(user_db)
 
-    token = get_jwt_token({"sub": user_db.username})
+    token = create_jwt_token({"sub": user_db.username})
     return token
 
 def hash_password(password: bytes):
@@ -25,7 +25,7 @@ def hash_password(password: bytes):
 def check_password(password: bytes, hashed_password: bytes):
     return bcrypt.checkpw(password, hashed_password)
 
-def get_jwt_token(payload: dict):
+def create_jwt_token(payload: dict):
     expire = datetime.now(UTC) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     payload = {**payload, "exp": expire}
     token = jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.ALGORITHM)
@@ -37,3 +37,8 @@ def decode_jwt_token(token: bytes):
         return payload
     except JWTError:
         return None
+
+def get_user(session: Session, username: str) -> User | None:
+    statement = select(User).where(User.username == username)
+    results = session.exec(statement)
+    return results.first()
