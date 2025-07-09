@@ -1,7 +1,11 @@
-import fastapi
+from fastapi import FastAPI
+from sqlmodel import Session, SQLModel
 
-app = fastapi.FastAPI()
+from db import engine, User
+from auth.controller import router as auth_router
 
-@app.get("/")
-def index():
-    return "Hello, World!"
+SQLModel.metadata.create_all(engine)
+
+app = FastAPI()
+
+app.include_router(auth_router)
