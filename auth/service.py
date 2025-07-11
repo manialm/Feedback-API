@@ -5,8 +5,6 @@ from sqlmodel import Session, select
 from user.model import User, UserCreate
 from core.settings import settings
 
-from fastapi.security import OAuth2PasswordBearer
-
 import bcrypt
 from jose import jwt
 from jose.exceptions import JWTError
@@ -47,11 +45,3 @@ def decode_jwt_token(token: bytes):
         return payload
     except JWTError:
         return None
-
-
-# TODO: | None?
-def get_user(session: Session, username: str) -> User | None:
-    statement = select(User).where(User.username == username)
-    results = session.exec(statement)
-
-    return results.first()

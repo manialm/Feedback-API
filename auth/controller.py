@@ -1,9 +1,9 @@
-from typing import Annotated
-
 from fastapi import APIRouter, HTTPException
 from fastapi.params import Header
 
-from .service import check_password, create_user, get_user, create_jwt_token
+
+from user.service import get_user
+from .service import check_password, create_user, create_jwt_token
 from db import SessionDep
 from user.model import UserCreate
 

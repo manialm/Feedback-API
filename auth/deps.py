@@ -4,7 +4,8 @@ from fastapi import Depends, HTTPException, Header, status
 from db import SessionDep
 from user.model import User, UserPublic
 
-from .service import decode_jwt_token, get_user
+from .service import decode_jwt_token
+from user.service import get_user
 
 
 def get_authorization_token(authorization: Annotated[str, Header()]) -> bytes:

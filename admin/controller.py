@@ -1,15 +1,35 @@
 from fastapi import APIRouter
 from sqlmodel import select
 
+from admin.model import UserPrivate, UserUpdate
 from auth.deps import CurrentUserAdmin
+from auth.service import hash_password
+from user.service import get_user_by_id
 from db import SessionDep
-from user.model import User
+from user.model import User, UserCreate
 
 router = APIRouter(prefix="/admin")
 
 
-@router.get("/users")
+@router.get("/users", response_model=list[UserPrivate])
 def users(admin: CurrentUserAdmin, session: SessionDep):
     statement = select(User)
     results = session.exec(statement)
     return list(results)
+
+
+# TODO: invalidate tokens createdj before patch?
+@router.patch("/users/{id}", response_model=UserPrivate)
+def update_user(admin: CurrentUserAdmin, session: SessionDep, user_update: UserUpdate, id: int):
+    user = get_user_by_id(session, id)
+
+
+    user_dump = user_update.model_dump(exclude_unset=True)
+    password = user_dump.get("password")
+    update = {"password_hash": hash_password(password)} if password else None
+
+    user.sqlmodel_update(user_dump, update=update)
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user

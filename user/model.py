@@ -9,7 +9,7 @@ class User(UserBase, table=True):
     # TODO: | None?
     id: int | None = Field(default=None, primary_key=True)
     password_hash: bytes | None = Field(default=None)
-    is_admin: bool = False
+    is_admin: bool | None = Field(default=False)
 
 
 class UserCreate(UserBase):
