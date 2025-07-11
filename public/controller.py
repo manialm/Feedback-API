@@ -9,15 +9,20 @@ router = APIRouter(prefix="")
 
 @router.get("/")
 def index():
-    return "App is running\n"
+    return "App is running"
 
 
 @router.get("/feedback/summary")
 def summary(session: SessionDep):
     feedback_count = session.exec(select(func.count(Feedback.id))).one()
 
-    feedback_avg = (
-        session.exec(select(func.sum(Feedback.rating))).one() / feedback_count
+    feedback_sum = (
+        session.exec(select(func.sum(Feedback.rating))).one()
     )
+
+    feedback_avg = feedback_sum / feedback_count if feedback_sum else 0
+
+    if not feedback_count:
+        feedback_count = 0
 
     return {"count": feedback_count, "average": feedback_avg}
