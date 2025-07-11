@@ -15,6 +15,7 @@ from db import engine
 
 app = FastAPI()
 
+SQLModel.metadata.create_all(engine)
 
 # create admin user if it doesn't exist
 with Session(engine) as session:
