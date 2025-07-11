@@ -5,6 +5,8 @@ from sqlmodel import SQLModel, Session, create_engine, StaticPool
 from db import get_session
 from main import app
 
+from core.settings import settings
+
 admin_user_data = {"username": "admin", "password": "adminpass"}
 
 
@@ -50,3 +52,7 @@ def admin_user_fixture(session: Session):
         session.refresh(admin)
 
     yield admin
+
+@pytest.fixture(name="settings")
+def settings_fixture():
+    yield settings
