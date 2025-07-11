@@ -12,11 +12,12 @@ router = APIRouter(prefix="/user")
 def get(current_user: CurrentUser):
     return current_user
 
+
 @router.post("/feedback")
-def send_feedback(session: SessionDep, current_user: CurrentUser, feedback: FeedbackCreate):
-    feedback_db = Feedback.model_validate(feedback, update={
-        "user_id": current_user.id
-    })
+def send_feedback(
+    session: SessionDep, current_user: CurrentUser, feedback: FeedbackCreate
+):
+    feedback_db = Feedback.model_validate(feedback, update={"user_id": current_user.id})
 
     session.add(feedback_db)
     session.commit()

@@ -22,9 +22,10 @@ def users(admin: CurrentUserAdmin, session: SessionDep):
 
 # TODO: invalidate tokens createdj before patch?
 @router.patch("/users/{id}", response_model=UserPrivate)
-def update_user(admin: CurrentUserAdmin, session: SessionDep, user_update: UserUpdate, id: int):
+def update_user(
+    admin: CurrentUserAdmin, session: SessionDep, user_update: UserUpdate, id: int
+):
     user = get_user_by_id(session, id)
-
 
     user_dump = user_update.model_dump(exclude_unset=True)
     password = user_dump.get("password")
