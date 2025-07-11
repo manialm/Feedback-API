@@ -2,10 +2,8 @@ from sqlmodel import CheckConstraint, Field, SQLModel
 
 
 class FeedbackBase(SQLModel):
-    # TODO: add bounds
-    rating: int | None = Field(
-        default=1, sa_column_args=CheckConstraint("rating >= 1 AND rating <= 10")
-    )
+    # TODO: add bounds to rating
+    rating: int | None = Field(default=1)
     comment: str | None = Field(max_length=256)
 
 
