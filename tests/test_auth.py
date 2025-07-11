@@ -1,6 +1,3 @@
-from main import app
-
-
 user_1 = {"username": "mani", "password": "pass"}
 user_2 = {"username": "reza", "password": "1234"}
 
