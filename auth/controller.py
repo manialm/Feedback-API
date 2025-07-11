@@ -1,10 +1,11 @@
 from typing import Annotated
+
 from fastapi import APIRouter, HTTPException
 from fastapi.params import Header
-from db import SessionDep
-from user.model import UserCreate
 
 from .service import check_password, create_user, get_user, create_jwt_token
+from db import SessionDep
+from user.model import UserCreate
 
 router = APIRouter(prefix="/auth")
 
@@ -34,11 +35,3 @@ def login(session: SessionDep, user: UserCreate):
 
     else:
         raise HTTPException(401, "Incorrect password")
-
-
-@router.get("/get")
-def get(
-    session: SessionDep, authorization: Annotated[str | None, Header()], username: str
-):
-    user = get_user(session, username)
-    return authorization

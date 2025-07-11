@@ -13,3 +13,6 @@ class User(UserBase, table=True):
 
 class UserCreate(UserBase):
     password: bytes
+
+class UserPublic(UserBase):
+    id: int = Field(primary_key=True)
