@@ -4,6 +4,7 @@ from sqlmodel import select
 from admin.model import UserPrivate, UserUpdate
 from auth.deps import CurrentUserAdmin
 from auth.service import hash_password
+from feedback.model import Feedback
 from user.service import get_user_by_id
 from db import SessionDep
 from user.model import User, UserCreate
@@ -33,3 +34,10 @@ def update_user(admin: CurrentUserAdmin, session: SessionDep, user_update: UserU
     session.commit()
     session.refresh(user)
     return user
+
+
+@router.get("/feedback")
+def feedbacks(admin: CurrentUserAdmin, session: SessionDep):
+    statement = select(Feedback)
+    results = session.exec(statement)
+    return list(results)
