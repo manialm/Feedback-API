@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from typing import Annotated
+from fastapi import APIRouter, Body
 from sqlmodel import select
 
 from admin.model import UserPrivate, UserUpdate
@@ -41,3 +42,22 @@ def feedbacks(admin: CurrentUserAdmin, session: SessionDep):
     statement = select(Feedback)
     results = session.exec(statement)
     return list(results)
+
+
+# NOTE: Body(embed=True) expects { "is_admin": true }
+@router.patch("/roles/{user_id}")
+def change_role(
+    admin: CurrentUserAdmin,
+    session: SessionDep,
+    user_id: int,
+    is_admin: Annotated[bool, Body(embed=True)],
+):
+    user = get_user_by_id(session, user_id)
+
+    if is_admin is not None:
+        user.is_admin = is_admin
+        session.add(user)
+        session.commit()
+        session.refresh(user)
+
+    return user
