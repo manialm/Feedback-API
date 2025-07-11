@@ -11,15 +11,18 @@ def get_authorization_token(authorization: Annotated[str, Header()]) -> bytes:
     bearer, token = authorization.split()
     return token
 
-def get_current_user(session: SessionDep, token: Annotated[bytes, Depends(get_authorization_token)]):
+
+def get_current_user(
+    session: SessionDep, token: Annotated[bytes, Depends(get_authorization_token)]
+):
     payload = decode_jwt_token(token)
 
     if payload is None:
         raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     username = payload["sub"]
     user = get_user(session, username)
@@ -30,8 +33,8 @@ def get_current_user(session: SessionDep, token: Annotated[bytes, Depends(get_au
     return user
 
 
-# Token = Annotated[bytes, Depends(get_authorization_token)]
 CurrentUser = Annotated[User, Depends(get_current_user)]
+
 
 def get_current_user_admin(current_user: CurrentUser):
     if not current_user.is_admin:
@@ -41,5 +44,6 @@ def get_current_user_admin(current_user: CurrentUser):
             headers={"WWW-Authenticate": "Bearer"},
         )
     return current_user
+
 
 CurrentUserAdmin = Annotated[User, Depends(get_current_user_admin)]

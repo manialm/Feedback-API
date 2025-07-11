@@ -7,9 +7,11 @@ from admin.controller import router as admin_router
 
 app = FastAPI()
 
+
 @app.get("/")
 def index():
     return "FastAPI running"
+
 
 app.include_router(auth_router)
 app.include_router(user_router)

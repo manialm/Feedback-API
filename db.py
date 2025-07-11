@@ -16,7 +16,9 @@ SQLModel.metadata.create_all(engine)
 with Session(engine) as session:
     admin = get_user(session, "admin")
     if not admin:
-        admin = User(username="admin", password_hash=hash_password(b"admin"), is_admin=True)
+        admin = User(
+            username="admin", password_hash=hash_password(b"admin"), is_admin=True
+        )
         session.add(admin)
         session.commit()
 

@@ -7,6 +7,7 @@ from user.model import User
 
 router = APIRouter(prefix="/admin")
 
+
 @router.get("/users")
 def users(admin: CurrentUserAdmin, session: SessionDep):
     statement = select(User)

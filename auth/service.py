@@ -49,8 +49,9 @@ def decode_jwt_token(token: bytes):
         return None
 
 
+# TODO: | None?
 def get_user(session: Session, username: str) -> User | None:
     statement = select(User).where(User.username == username)
     results = session.exec(statement)
-        
+
     return results.first()
