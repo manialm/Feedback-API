@@ -26,6 +26,13 @@ POSTGRES_PORT=5432
 EOF
 ```
 
+## Testing
+
+Run the test suite:
+
+```bash
+pytest
+```
 
 
 ## Features
@@ -262,11 +269,3 @@ Authorization: Bearer <your_jwt_token>
 ```
 
 Tokens are obtained by calling the `/auth/login` endpoint and expire after 30 minutes by default.
-
-## Testing
-
-Run the test suite:
-
-```bash
-pytest
-```
