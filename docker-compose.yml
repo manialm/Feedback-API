@@ -1,17 +1,10 @@
 services:
-  # This is the service for your FastAPI application.
   app:
-    # We will create a Dockerfile for this later.
-    # For now, this tells Docker to build an image from the current directory.
     build: .
     ports:
-      # Maps port 8000 inside the container to port 8000 on your machine.
       - "8000:8000"
     volumes:
-      # This mounts your local code directory into the container.
-      # Any changes you make locally will be reflected inside the container instantly.
       - .:/workspace
-    # This ensures the 'app' service starts after the 'db' service is ready.
     env_file:
       - path: ./.env.sample
         required: true
@@ -20,12 +13,10 @@ services:
     depends_on:
       - db
 
-  # This is the service for your PostgreSQL database.
+  # "db" is the hostname used in .env
   db:
-    # Uses the official PostgreSQL image from Docker Hub.
     image: postgres
     volumes:
-      # This ensures your database data persists even if the container is restarted.
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - path: ./.env.sample
@@ -33,9 +24,7 @@ services:
       - path: ./.env
         required: false
     ports:
-      # Maps the PostgreSQL port so you could connect with an external tool if needed.
       - "5432:5432"
 
 volumes:
-  # Defines the named volume for data persistence.
   postgres_data:

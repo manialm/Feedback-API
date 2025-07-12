@@ -72,6 +72,8 @@ pluggy==1.6.0
     # via pytest
 psycopg2==2.9.10
     # via role-based-feedback-collector-api (pyproject.toml)
+psycopg2-binary==2.9.10
+    # via role-based-feedback-collector-api (pyproject.toml)
 pyasn1==0.6.1
     # via
     #   python-jose
