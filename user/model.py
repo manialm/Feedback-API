@@ -7,6 +7,7 @@ class UserBase(SQLModel):
 
 class User(UserBase, table=True):
     # TODO: | None?
+    __tablename__ = "users"
     id: int | None = Field(default=None, primary_key=True)
     password_hash: bytes | None = Field(default=None)
     is_admin: bool | None = Field(default=False)
