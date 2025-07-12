@@ -9,7 +9,7 @@ class FeedbackBase(SQLModel):
 
 class Feedback(FeedbackBase, table=True):
     id: int | None = Field(primary_key=True, default=None)
-    user_id: int | None = Field(foreign_key="user.id")
+    user_id: int | None = Field(foreign_key="users.id")
 
 
 class FeedbackCreate(FeedbackBase):
