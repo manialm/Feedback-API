@@ -10,6 +10,15 @@
   
   // This sets the default folder to open in the Codespace.
   "workspaceFolder": "/workspace",
+
+  "remoteEnv": {
+      "JWT_SECRET": "gjCTFhtTt0Fti9YF/kRb52Ah0b0k4P4xZNl+u4Y0m0o=",
+      "POSTGRES_USER": "dev",
+      "POSTGRES_PASSWORD": "dev",
+      "POSTGRES_DB": "dev_db",
+      "POSTGRES_HOST": "localhost",
+      "POSTGRES_PORT": "5432"
+    },
   
   // Forward the port for the FastAPI app so you can access it from your browser.
   "forwardPorts": [8000],
